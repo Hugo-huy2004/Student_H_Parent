@@ -49,7 +49,7 @@ const cooperHewitt = localFont({
 
 export const metadata: Metadata = {
   // Domain thật của trang (để link ảnh chia sẻ là URL tuyệt đối). Đặt SITE_URL khi deploy.
-  metadataBase: new URL(process.env.SITE_URL ?? "http://localhost:2705"),
+  metadataBase: new URL(process.env.SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:2705")),
   title: "Invitation · Student Honoring Ceremony · Summer 2026",
   description:
     "Dear Parents, you are cordially invited to the Student Honoring Ceremony, Summer 2026 Trimester, at the University of Greenwich (Vietnam), honouring Petrus Hugo Wishpax Le.",
