@@ -54,8 +54,8 @@ export default function GoldDust({ count = 34 }: { count?: number }) {
         const y = m.y * h;
         const glow = 0.35 + 0.65 * ((Math.sin(t / 900 + m.sway) + 1) / 2);
         const g = ctx.createRadialGradient(x, y, 0, x, y, m.r * 4);
-        g.addColorStop(0, `rgba(255, 238, 190, ${0.75 * glow * m.depth})`);
-        g.addColorStop(1, "rgba(242, 212, 138, 0)");
+        g.addColorStop(0, `rgba(225, 238, 255, ${0.75 * glow * m.depth})`);
+        g.addColorStop(1, "rgba(170, 205, 255, 0)");
         ctx.fillStyle = g;
         ctx.beginPath();
         ctx.arc(x, y, m.r * 4, 0, Math.PI * 2);

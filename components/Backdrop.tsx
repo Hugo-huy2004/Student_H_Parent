@@ -6,11 +6,10 @@ import courtyard from "@/public/campus/courtyard.jpg";
 import canary from "@/public/campus/canary-view.jpg";
 import dome from "@/public/campus/dome.jpg";
 import dusk from "@/public/campus/dusk-colonnade.jpg";
-import park from "@/public/campus/park-view.jpg";
 import domesNight from "@/public/campus/twin-domes-night.jpg";
 import domesPath from "@/public/campus/twin-domes-path.jpg";
 
-export const campus = { colonnade, courtyard, canary, dome, dusk, park, domesNight, domesPath };
+export const campus = { colonnade, courtyard, canary, dome, dusk, domesNight, domesPath };
 
 /** Các ảnh khuôn viên lần lượt mờ dần chuyển qua nhau, phía sau phần mở đầu. */
 const HERO_SLIDES: StaticImageData[] = [dusk, domesNight, domesPath, canary, courtyard];

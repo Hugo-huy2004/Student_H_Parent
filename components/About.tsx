@@ -88,6 +88,7 @@ function RoyalMedal() {
 export default function About() {
   return (
     <section id="about" className="about" aria-labelledby="about-title">
+      <span className="star-slot star-slot-corner-r" data-star aria-hidden />
       <Backdrop src={campus.domesNight} position="center 50%" />
 
       {/* tiêu đề "tiến lại gần" theo cuộn */}

@@ -1,24 +1,15 @@
-"use client";
-
 // Logo University of Greenwich (MASTER LOGO_2022), tách thành 2 SVG đặt cạnh nhau:
-// la bàn (phần tử riêng để xoay / phóng to / trượt chuẩn xác) và chữ (2 dòng animate riêng).
+// la bàn và chữ.
 // Màu theo currentColor. Kích thước: đặt width hoặc height cho className.
-import { motion, type Variants } from "motion/react";
 
 type Props = {
   className?: string;
-  compass?: Variants;
-  line1?: Variants;
-  line2?: Variants;
   title?: string;
 };
 
 /* Logo gốc: viewBox 216 × 78.51. La bàn chiếm x 0–71 (tâm 39.25), chữ chiếm x 71–216. */
 const H = 78.51;
 const SPLIT = 71;
-const COMPASS_CX = 39.25;
-/** Độ dịch (theo % bề rộng la bàn) để tâm la bàn trùng giữa logo */
-export const COMPASS_TO_CENTER = `${((216 / 2 - COMPASS_CX) / SPLIT) * 100}%`;
 
 /** Các hình của la bàn (toạ độ theo logo gốc, tâm tại 39.25, 39.25) */
 const COMPASS_SHAPES = (
@@ -43,21 +34,14 @@ const COMPASS_SHAPES = (
   </>
 );
 
-export default function GreenwichLogo({ className, compass, line1, line2, title = "University of Greenwich" }: Props) {
+export default function GreenwichLogo({ className, title = "University of Greenwich" }: Props) {
   return (
     <span className={`gre-logo ${className ?? ""}`} role="img" aria-label={title}>
-      <motion.svg
-        className="logo-compass"
-        viewBox={`0 0 ${SPLIT} ${H}`}
-        fill="currentColor"
-        variants={compass}
-        style={{ originX: COMPASS_CX / SPLIT, originY: 0.5 }}
-        aria-hidden
-      >
+      <svg className="logo-compass" viewBox={`0 0 ${SPLIT} ${H}`} fill="currentColor" aria-hidden>
         {COMPASS_SHAPES}
-      </motion.svg>
+      </svg>
       <svg className="logo-text" viewBox={`${SPLIT} 0 ${216 - SPLIT} ${H}`} fill="currentColor" aria-hidden>
-        <motion.g className="logo-line1" variants={line1}>
+        <g className="logo-line1">
           <path d="M78.29,36.17c3.67,0,5.23-1.53,5.23-5.11v-10.53h-2.43v10.44c0,2.2-.76,3.01-2.8,3.01s-2.82-.82-2.82-3.01v-10.44h-2.43v10.53c0,3.58,1.57,5.11,5.25,5.11Z" />
           <polygon points="93.58 35.94 96.05 35.94 96.05 20.52 93.72 20.52 93.72 28.87 93.78 31.32 87.85 20.52 85.38 20.52 85.38 35.94 87.71 35.94 87.71 27.59 87.65 25.14 93.58 35.94" />
           <rect x="97.89" y="20.52" width="2.43" height="15.41" />
@@ -70,8 +54,8 @@ export default function GreenwichLogo({ className, compass, line1, line2, title 
           <polygon points="167.16 35.94 169.58 35.94 169.58 31.21 174.09 20.52 171.45 20.52 168.37 28.12 165.29 20.52 162.65 20.52 167.16 31.21 167.16 35.94" />
           <path d="M184.01,36.17c3.79,0,5.56-2.4,5.56-7.55v-.77c0-5.15-1.77-7.55-5.56-7.55s-5.58,2.4-5.58,7.55v.77c0,5.15,1.77,7.55,5.58,7.55ZM187.08,28.62c0,3.76-.9,5.36-3.01,5.36h-.13c-2.11,0-3.01-1.6-3.01-5.36v-.77c0-3.76.9-5.36,3.01-5.36h.13c2.11,0,3.01,1.6,3.01,5.36v.77Z" />
           <polygon points="191.1 20.52 191.1 35.94 193.52 35.94 193.52 29.18 199 29.18 199 26.98 193.52 26.98 193.52 22.72 199.96 22.72 199.96 20.52 191.1 20.52" />
-        </motion.g>
-        <motion.g className="logo-line2" variants={line2}>
+        </g>
+        <g className="logo-line2">
           <path d="M79.92,38.66c-4.75,0-7.11,2.75-7.11,9.33v.97c0,6.58,2.36,9.33,7.36,9.33,3.22,0,5.09-1.07,6.38-2.22v-8.27h-6.02v2.83h2.75v3.86c-.63.51-1.66.95-2.99.95h-.22c-3,0-3.92-2.19-3.92-6.48v-.97c0-4.29.95-6.48,3.75-6.48h.22c2.39,0,3.17,1.58,3.17,4.42h3.26v-.64c0-4.63-2.27-6.62-6.62-6.62Z" />
           <path d="M94.49,38.98h-5.94v19h3.26v-7.09h2.78l3.25,7.09h3.53l-3.62-7.6c1.73-.68,3.09-2.17,3.09-5.21v-.49c0-4.82-3.39-5.7-6.36-5.7ZM97.53,45.07c0,2.51-1.66,2.97-2.92,2.97h-2.8v-6.21h2.8c1.27,0,2.92.46,2.92,2.97v.27Z" />
           <polygon points="102.58 57.98 113.88 57.98 113.88 55.13 105.84 55.13 105.84 49.7 112.66 49.7 112.66 46.87 105.84 46.87 105.84 41.83 113.88 41.83 113.88 38.98 102.58 38.98 102.58 57.98" />
@@ -81,7 +65,7 @@ export default function GreenwichLogo({ className, compass, line1, line2, title 
           <rect x="166.87" y="38.98" width="3.26" height="19" />
           <path d="M178.77,38.66c-4.75,0-6.94,2.75-6.94,9.33v.97c0,6.58,2.19,9.33,6.94,9.33,4.36,0,6.55-2,6.55-6.48v-.24h-3.29c0,2.39-.85,3.87-3.07,3.87h-.22c-2.73,0-3.58-2.19-3.58-6.48v-.97c0-4.29.88-6.48,3.58-6.48h.22c2.31,0,3.07,1.58,3.07,4.6h3.29v-.83c0-4.63-2.19-6.62-6.55-6.62Z" />
           <polygon points="196.7 46.87 190.24 46.87 190.24 38.98 186.98 38.98 186.98 57.98 190.24 57.98 190.24 49.7 196.7 49.7 196.7 57.98 199.96 57.98 199.96 38.98 196.7 38.98 196.7 46.87" />
-        </motion.g>
+        </g>
       </svg>
     </span>
   );

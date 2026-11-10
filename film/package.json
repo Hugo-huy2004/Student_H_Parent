@@ -1,0 +1,24 @@
+{
+  "name": "invitation-film",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio",
+    "render:intro": "remotion render Intro out/intro.mp4 --codec h264 --crf 20",
+    "render:dress": "remotion render DressCode out/dresscode.mp4 --codec h264 --crf 20"
+  },
+  "dependencies": {
+    "@react-three/fiber": "9.8.2",
+    "@remotion/cli": "4.0.538",
+    "@remotion/google-fonts": "4.0.538",
+    "@remotion/three": "4.0.538",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.538",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/three": "0.170.0",
+    "typescript": "^5"
+  }
+}

@@ -1,14 +1,16 @@
 import Image from "next/image";
 import { getEventSchedule, getEventVenue } from "@/data/event";
 import hugo from "@/public/Hugo.png";
+import hall from "@/public/campus/hall.jpg";
 import { Backdrop, HeroSlideshow, campus } from "./Backdrop";
 import Stage from "./Stage";
 import Reel from "./Reel";
 import { googleCalendarUrl } from "@/lib/calendar";
 import Music from "./Music";
-import GoldDust from "./GoldDust";
+import StarStory from "./StarStory";
+import Guide from "./Guide";
+import DressCode from "./DressCode";
 import Fireworks from "./Fireworks";
-import starPodium from "@/public/star-podium.png";
 import Hero from "./Hero";
 import About from "./About";
 import { ArchPortrait, Reveal, ScrollProgress, Scrub, Words } from "./motion";
@@ -41,9 +43,9 @@ function Laurel({ flip }: { flip?: boolean }) {
     <svg className={`laurel ${flip ? "laurel-flip" : ""}`} viewBox="0 0 56 120" aria-hidden>
       <defs>
         <linearGradient id="laurel-gold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#fff4cf" />
-          <stop offset="45%" stopColor="#e2b85f" />
-          <stop offset="100%" stopColor="#a87628" />
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="45%" stopColor="#e3e9f4" />
+          <stop offset="100%" stopColor="#6c7b9c" />
         </linearGradient>
       </defs>
       <path d="M44 112 Q2 64 30 6" fill="none" stroke="url(#laurel-gold)" strokeWidth="1.6" strokeLinecap="round" />
@@ -92,6 +94,8 @@ export default function Invitation() {
   return (
     <main className="inv">
       <ScrollProgress />
+      {/* Ngôi sao pha lê dẫn đường + phim intro */}
+      <Guide />
       <Music />
 
       {/* ── 1. Bìa: Thư mời tham dự Lễ ... ──────────── */}
@@ -106,6 +110,7 @@ export default function Invitation() {
 
       {/* ── 3. Kính mời ─────────────────────────────── */}
       <section className="greeting" aria-labelledby="greet-name">
+        <span className="star-slot star-slot-top" data-star data-glow="1" aria-hidden />
         <Fireworks every={1400} />
         <Reveal as="p" className="kicker">
           Trân trọng kính mời
@@ -135,6 +140,7 @@ export default function Invitation() {
 
       {/* ── 4. Vinh danh ────────────────────────────── */}
       <section id="honoree" className="honoree" aria-labelledby="honoree-name">
+        <span className="star-slot star-slot-corner-l" data-star aria-hidden />
         <Backdrop src={campus.dome} position="center 30%" />
         <Scrub scale={[0.82, 1]} y={[80, 0]} opacity={[0.3, 1]}>
           <ArchPortrait>
@@ -158,17 +164,22 @@ export default function Invitation() {
         </Reveal>
       </section>
 
+      {/* ── 5a. Chiếc cúp năm nay: ngôi sao pha lê 3D ───── */}
+      <StarStory />
+
       {/* ── 5. Thông tin buổi lễ ────────────────────────────── */}
       <section className="invite" aria-labelledby="details-title">
         <h2 id="details-title" className="sr-only">Thời gian và địa điểm · Date, time and venue</h2>
-
-        <GoldDust />
-        {/* chiếc cúp bay lên, xoay về thẳng, lớn dần theo cuộn */}
-        <Scrub scale={[0.55, 1]} y={[160, 0]} rotate={[-14, 0]} opacity={[0, 1]}>
-          <Reveal className="podium" delay={0.1}>
-            <Image src={starPodium} alt="" sizes="(max-width: 640px) 70vw, 320px" />
-          </Reveal>
-        </Scrub>
+        {/* Ảnh hội trường: tông xanh, tan dần vào nền ở phía dưới */}
+        <div className="invite-hall" aria-hidden>
+          <Image src={hall} alt="" fill sizes="100vw" placeholder="blur" />
+        </div>
+        {/* ngôi sao đậu trên mái vòm hội trường */}
+        <span className="star-slot star-slot-dome" data-star data-glow="1" aria-hidden />
+        <Reveal as="p" className="kicker">
+          Thời gian
+          <En>Date &amp; time</En>
+        </Reveal>
 
         {/* Chỉ con số: giờ to, ngày nhỏ hơn — chưa chốt thì quay liên tục kiểu xổ số */}
         <Scrub y={[70, 0]} scale={[0.9, 1]}>
@@ -195,39 +206,47 @@ export default function Invitation() {
           </Reveal>
         )}
 
-        <Reveal as="p" className="when-venue" delay={0.35}>
+        {/* Thẻ địa điểm: kính mờ viền bạc, nút chỉ đường + thêm vào lịch */}
+        <Reveal className="venue-card" delay={0.35}>
           <span className="when-pin"><PinIcon /></span>
+          <p className="venue-label">
+            Địa điểm <span lang="en">· Venue</span>
+          </p>
           {venue ? (
-            <span>
-              <strong>{venue.name}</strong>
-              {venue.address && <span className="when-addr">{venue.address}</span>}
-            </span>
+            <>
+              <p className="venue-name">{venue.name}</p>
+              {venue.address && <p className="when-addr">{venue.address}</p>}
+            </>
           ) : (
-            <span>Sẽ thông báo sau</span>
+            <p className="venue-name">Sẽ thông báo sau</p>
           )}
-        </Reveal>
-
-        {date && time && (
-          <Reveal className="cal" delay={0.4}>
-            <a className="btn" href="/calendar.ics">
-              Thêm vào lịch · Add to calendar
-            </a>
+          <div className="venue-actions">
+            {venue && (
+              <a className="btn btn-ghost" href={venue.map} target="_blank" rel="noreferrer">
+                Chỉ đường · Directions
+                <svg viewBox="0 0 16 16" aria-hidden><path d="M4 12 12 4M6 4h6v6" /></svg>
+              </a>
+            )}
+            {date && time && (
+              <a className="btn" href="/calendar.ics">
+                Thêm vào lịch · Add to calendar
+              </a>
+            )}
+          </div>
+          {date && time && (
             <a className="cal-alt" href={googleCalendarUrl({ date, time, venue })} target="_blank" rel="noreferrer">
               hoặc Google Calendar
             </a>
-          </Reveal>
-        )}
-
-        {venue && (
-          <Reveal as="a" className="btn" href={venue.map} target="_blank" rel="noreferrer" delay={0.4}>
-            Xem chỉ đường · Directions
-            <svg viewBox="0 0 16 16" aria-hidden><path d="M4 12 12 4M6 4h6v6" /></svg>
-          </Reveal>
-        )}
+          )}
+        </Reveal>
       </section>
+
+      {/* ── 5b. Trang phục ─────────────────────────────── */}
+      <DressCode />
 
       {/* ── 6. Lời kết ──────────────────────────────── */}
       <section className="closing">
+        <span className="star-slot star-slot-top" data-star data-glow="1" aria-hidden />
         <Backdrop src={campus.colonnade} position="center 40%" />
         <Scrub scale={[0.8, 1]} opacity={[0, 1]}>
           <Reveal as="p" className="closing-line">

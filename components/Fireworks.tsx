@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const COLORS = ["#fff6d8", "#f2d48a", "#e9b949", "#ffffff", "#c9a96e"];
+const COLORS = ["#ffffff", "#dce6f7", "#dce6f7", "#ffffff", "#b8c9ea"];
 
 type Spark = { x: number; y: number; vx: number; vy: number; life: number; max: number; color: string; size: number };
 
@@ -67,7 +67,7 @@ export default function Fireworks({ every = 1100 }: { every?: number }) {
         const x = s.x * w;
         const y = s.y * h;
         ctx.globalAlpha = a * 0.85;
-        ctx.fillStyle = "#fff4cf";
+        ctx.fillStyle = "#ffffff";
         ctx.fillRect(x - s.size * 3, y - 0.5, s.size * 6, 1);
         ctx.fillRect(x - 0.5, y - s.size * 3, 1, s.size * 6);
         ctx.beginPath();

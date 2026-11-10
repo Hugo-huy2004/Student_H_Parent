@@ -5,10 +5,10 @@ import { ImageResponse } from "next/og";
 /** Ảnh chia sẻ link (Zalo, Messenger, Facebook…) — 1200 × 630, theo màn bìa thư mời, 100% tiếng Anh */
 export const ogSize = { width: 1200, height: 630 };
 
-const NIGHT = "#000033";
-const GOLD = "#f2d48a";
+const NIGHT = "#03124a";
+const GOLD = "#dce6f7";
 const SILVER = "#CBC9CC";
-const GOLD_TEXT = "linear-gradient(180deg, #fff6d8 0%, #f2d48a 26%, #c18d38 50%, #fbe6a4 60%, #a87628 84%, #f3d68e 100%)";
+const GOLD_TEXT = "linear-gradient(180deg, #ffffff 0%, #dce6f7 26%, #8a98b6 50%, #f5f8fd 60%, #6c7b9c 84%, #e3e9f4 100%)";
 
 const asset = (f: string) => readFile(join(process.cwd(), "assets/og", f));
 const dataUri = (buf: Buffer, mime: string) => `data:${mime};base64,${buf.toString("base64")}`;
@@ -43,7 +43,7 @@ export async function renderInvitationOg() {
             width: 1200,
             height: 630,
             display: "flex",
-            backgroundImage: "radial-gradient(70% 80% at 50% 50%, rgba(0,0,51,0.55), rgba(0,0,51,0.95))",
+            backgroundImage: "radial-gradient(70% 80% at 50% 50%, rgba(3,18,74,0.55), rgba(3,18,74,0.95))",
           }}
         />
 
@@ -67,7 +67,7 @@ export async function renderInvitationOg() {
             </div>
           </div>
 
-          <div style={{ display: "flex", marginTop: 22, fontFamily: "EB Garamond", fontStyle: "italic", fontSize: 32, color: "#f6e3b4" }}>
+          <div style={{ display: "flex", marginTop: 22, fontFamily: "EB Garamond", fontStyle: "italic", fontSize: 32, color: "#e8eefa" }}>
             Outstanding Student Recognition · University of Greenwich (Vietnam)
           </div>
 

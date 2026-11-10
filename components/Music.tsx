@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { FILM_DONE, FILM_PLAY } from "@/lib/film";
 
 // Elgar — Enigma Variations, IX. "Nimrod" · John Barbirolli & Hallé Orchestra
 // Public domain — archive.org/details/EdwardElgar-EnigmaVariations (cũng có trên Wikimedia Commons)
@@ -36,14 +37,54 @@ export default function Music() {
     const events = ["pointerdown", "touchstart", "keydown"] as const;
     const stopListening = () => events.forEach((e) => window.removeEventListener(e, onGesture));
     const onGesture = () => {
-      play().then(stopListening, () => {});
+      if (!film) play().then(stopListening, () => {});
     };
 
     play().catch(() => events.forEach((e) => window.addEventListener(e, onGesture, { passive: true })));
 
+    // Phim intro: "mồi" nhạc ở chế độ tắt tiếng ngay trong cú chạm (iPhone mới cho phát về sau),
+    // phim xong mới bật tiếng từ đầu bản nhạc → không chen vào âm thanh phim.
+    let film = false;
+    const onFilmPlay = () => {
+      film = true;
+      a.muted = true;
+      a.play().catch(() => {});
+    };
+    const onFilmDone = () => {
+      if (!film) return;
+      film = false;
+      a.currentTime = 0;
+      a.muted = false;
+      play().then(stopListening, () => {});
+    };
+    window.addEventListener(FILM_PLAY, onFilmPlay);
+    window.addEventListener(FILM_DONE, onFilmDone);
+
+    // Phim Dress code (đã có nhạc + lời đọc riêng): nhạc nền tắt dần khi phim chạy, phim xong phát tiếp.
+    // Dùng pause thay vì hạ âm lượng vì iPhone bỏ qua chỉnh volume.
+    let video = false;
+    const onVideoStart = () => {
+      video = true;
+      clearInterval(fade);
+      fade = setInterval(() => {
+        a.volume = Math.max(0, a.volume - 0.05);
+        if (a.volume <= 0) {
+          clearInterval(fade);
+          a.pause();
+        }
+      }, 40);
+      if (/iPhone|iPad/.test(navigator.userAgent)) a.pause(); // iOS: volume không đổi được → dừng ngay
+    };
+    const onVideoEnd = () => {
+      video = false;
+      if (a.currentTime > 0 && !film) play().catch(() => {});
+    };
+    window.addEventListener("voice:start", onVideoStart);
+    window.addEventListener("voice:end", onVideoEnd);
+
     const onVisibility = () => {
       if (document.hidden) a.pause();
-      else if (a.currentTime > 0) play().catch(() => {});
+      else if (a.currentTime > 0 && !video && !film) play().catch(() => {});
     };
     document.addEventListener("visibilitychange", onVisibility);
 
@@ -51,6 +92,10 @@ export default function Music() {
       clearInterval(fade);
       stopListening();
       document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener(FILM_PLAY, onFilmPlay);
+      window.removeEventListener(FILM_DONE, onFilmDone);
+      window.removeEventListener("voice:start", onVideoStart);
+      window.removeEventListener("voice:end", onVideoEnd);
       a.pause();
     };
   }, []);

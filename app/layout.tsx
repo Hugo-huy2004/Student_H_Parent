@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, EB_Garamond, Public_Sans } from "next/font/google";
+import { Bodoni_Moda, EB_Garamond, Pinyon_Script, Playfair_Display, Public_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -22,6 +22,20 @@ const bodoni = Bodoni_Moda({
   variable: "--font-didone",
   subsets: ["latin"],
   weight: ["500"],
+});
+
+// Bodoni Moda không có dấu tiếng Việt → chữ tiếng Việt kiểu Didone dùng Playfair Display
+const playfair = Playfair_Display({
+  variable: "--font-didone-vi",
+  subsets: ["latin", "vietnamese"],
+  weight: ["500"],
+});
+
+// Chữ viết tay cho "Ceremony" (theo key visual)
+const pinyon = Pinyon_Script({
+  variable: "--font-script",
+  subsets: ["latin", "vietnamese"],
+  weight: "400",
 });
 
 // CooperHewitt chỉ có bộ Latin cơ bản → dùng cho chữ số và nhãn không dấu
@@ -48,13 +62,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000033",
+  themeColor: "#03124a",
   viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="vi" className={`${publicSans.variable} ${cooperHewitt.variable} ${garamond.variable} ${bodoni.variable}`}>
+    <html lang="vi" className={`${publicSans.variable} ${cooperHewitt.variable} ${garamond.variable} ${bodoni.variable} ${playfair.variable} ${pinyon.variable}`}>
       <body>{children}</body>
     </html>
   );

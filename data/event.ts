@@ -2,7 +2,7 @@
  * Ngày giờ buổi lễ, đọc từ biến môi trường (xem .env.example):
  *   EVENT_DATE=2026-11-20   (YYYY-MM-DD)
  *   EVENT_TIME=18:30        (HH:mm, 24 giờ)
- * Bỏ trống → ô tương ứng (cả tháng, nếu thiếu ngày) quay liên tục.
+ * Bỏ trống → dùng ngày giờ theo key visual (17.11.2026, 18:00).
  * Giá trị được đọc lúc build trang, đổi giá trị thì cần build / deploy lại.
  */
 
@@ -27,8 +27,8 @@ function parseTime(raw: string | undefined): EventTime | null {
 }
 
 export function getEventSchedule() {
-  const date = parseDate(process.env.EVENT_DATE);
-  const time = parseTime(process.env.EVENT_TIME);
+  const date = parseDate(process.env.EVENT_DATE || "2026-11-17");
+  const time = parseTime(process.env.EVENT_TIME || "18:00");
   return {
     date,
     time,
@@ -41,12 +41,12 @@ export function getEventSchedule() {
  * Địa điểm, đọc từ biến môi trường (xem .env.example):
  *   EVENT_VENUE=Tên nơi tổ chức
  *   EVENT_ADDRESS=Số nhà, đường, phường, thành phố
- * Bỏ trống EVENT_VENUE → thư mời ghi "Sẽ thông báo sau".
+ * Bỏ trống → dùng địa điểm theo key visual (Hall of Greenwich Vietnam).
  */
 export function getEventVenue() {
-  const name = process.env.EVENT_VENUE?.trim();
+  const name = process.env.EVENT_VENUE?.trim() || "Hall of Greenwich Vietnam";
   if (!name) return null;
-  const address = process.env.EVENT_ADDRESS?.trim() ?? "";
+  const address = process.env.EVENT_ADDRESS?.trim() || "20 Cộng Hòa, Phường Bảy Hiền, TP. Hồ Chí Minh";
   return {
     name,
     address,

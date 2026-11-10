@@ -12,7 +12,7 @@ export default async function AppleIcon() {
   const svg = (await compass).toString("base64");
   return new ImageResponse(
     // Nền navy kín cả ô (iOS tự bo góc)
-    <div style={{ display: "flex", width: "100%", height: "100%", background: "#000033" }}>
+    <div style={{ display: "flex", width: "100%", height: "100%", background: "#03124a" }}>
       {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <img src={`data:image/svg+xml;base64,${svg}`} width={180} height={180} />
     </div>,
